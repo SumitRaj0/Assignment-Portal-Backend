@@ -25,6 +25,11 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET not found in environment variables');
+      return res.status(500).json({ message: 'Server configuration error' });
+    }
+
     const token = generateToken(user._id);
 
     res.json({
